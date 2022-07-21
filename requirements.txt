@@ -2,3 +2,7 @@ fastapi==0.79.0
 uvicorn==0.18.2
 requests==2.28.1
 pytest==7.1.2
+motor==3.0.0
+databases==0.6.0
+python-dotenv == 0.20.0
+beanie==1.11.6

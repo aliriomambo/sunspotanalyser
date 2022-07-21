@@ -1,5 +1,6 @@
-from pydantic import BaseModel, validator, root_validator
+from pydantic import BaseModel, root_validator
 from uuid import uuid4
+from beanie import Document
 
 
 class Grid(BaseModel):
@@ -26,6 +27,15 @@ class Grid(BaseModel):
 
 class GridCreate(Grid):
     id: str = str(uuid4())
+
+
+class GridDB(Document):
+    id: str
+    size: int
+    values: str
+
+    class Settings:
+        name = "grid_collection"
 
 
 class GridCreateResponse(GridCreate):
