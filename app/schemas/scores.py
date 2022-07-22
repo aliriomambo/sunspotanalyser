@@ -1,5 +1,6 @@
 from pydantic import BaseModel, conint
 from typing import List
+from beanie import Document
 
 
 class Score(BaseModel):
@@ -18,5 +19,11 @@ class ScoreCreate(Score):
 class Scores(BaseModel):
     __root__: List[Score]
 
-    class Config:
-        orm_mode = True
+
+class ScoresGet(BaseModel):
+    scores: List[Score]
+
+
+class ScoresSave(Document):
+    grid_id: str
+    scores: List[Score]
