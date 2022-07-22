@@ -6,7 +6,7 @@ from app.utils.scoring import transform_values_into_grid, generate_score_all_gri
 async def save_scores(grid: GridDB) -> ScoresSave:
     matrix = transform_values_into_grid(grid.size, grid.values)
     scores = generate_score_all_grid(matrix)
-    scores_save = ScoresSave(scores=scores.__root__, grid_id=grid.id)
+    scores_save = ScoresSave(scores=scores.scores, grid_id=grid.id)
     return await scores_save.create()
 
 

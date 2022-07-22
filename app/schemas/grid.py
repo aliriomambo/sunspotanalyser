@@ -24,6 +24,14 @@ class Grid(BaseModel):
             raise ValueError('Mismatch between size and values count')
         return grid
 
+    class Config:
+        schema_extra = {
+            "example": {
+                "size": "2",
+                "values": "1,2,3,4"
+            }
+        }
+
 
 class GridDB(Document):
     id: str = str(uuid4())

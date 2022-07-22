@@ -17,10 +17,6 @@ class ScoreCreate(Score):
 
 
 class Scores(BaseModel):
-    __root__: List[Score]
-
-
-class ScoresGet(BaseModel):
     scores: List[Score]
 
 

@@ -1,14 +1,13 @@
-from fastapi import APIRouter, Depends
-from app.schemas.scores import Scores, ScoresSave, ScoresGet
-from app.schemas.grid import GridDB
-from beanie import PydanticObjectId
-from app.utils.scoring import generate_score_all_grid, transform_values_into_grid
-from app.db.repository.scores import retrieve_scores
+from fastapi import APIRouter
+from app.schemas.scores import ScoresSave, Scores
 
 router = APIRouter()
 
 
-@router.get("/{id}", response_model=ScoresGet)
+@router.get("/", response_model=Scores)
 async def get_scores(id: str):
+    """
+    Endpoint that gets the score by the GRID_ID as requested by the caller
+    """
     scores = await ScoresSave.find_one(ScoresSave.grid_id == id)
     return scores
