@@ -25,12 +25,8 @@ class Grid(BaseModel):
         return grid
 
 
-class GridCreate(Grid):
-    id: str = str(uuid4())
-
-
 class GridDB(Document):
-    id: str
+    id: str = str(uuid4())
     size: int
     values: str
 
@@ -38,5 +34,5 @@ class GridDB(Document):
         name = "grid_collection"
 
 
-class GridCreateResponse(GridCreate):
+class GridCreateResponse(BaseModel):
     id: str

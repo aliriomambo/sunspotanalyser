@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends
-from app.schemas.grid import GridDB
+from fastapi import APIRouter
+from app.schemas.grid import GridDB, GridCreateResponse, Grid
+from app.db.repository.grid import save_grid
 
 router = APIRouter()
 
 
-@router.post("/grid")
-async def create_grid(grid: GridDB) -> dict:
-    await grid.create()
-    return {"message": "Grid Created"}
+@router.post("/", response_model=GridCreateResponse)
+async def create_grid(grid: Grid):
+    return await save_grid(grid)
