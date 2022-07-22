@@ -6,7 +6,7 @@ from app.core.config import settings
 
 async def init_db():
     client = motor.motor_asyncio.AsyncIOMotorClient(
-        "mongodb://admin:admin@localhost:27017"
+        f"mongodb://{settings.MONGO_USER}:{settings.MONGO_PASS}@{settings.MONGO_HOST}:{settings.MONGO_PORT}"
     )
 
     await init_beanie(database=client.db_name, document_models=[GridDB])
