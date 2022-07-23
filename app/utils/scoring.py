@@ -24,6 +24,14 @@ def transform_values_into_grid(size: int, values: str) -> List:
     return matrix
 
 
+def sort_by_n_top_scores(scores, top) -> Scores:
+    scores = Scores(scores=scores.scores).dict()
+    scores_values_list = sort_score_grid(scores['scores'])
+    scores_values_list = scores_values_list[:top]
+    new_scores: Scores = Scores(scores=scores_values_list)
+    return new_scores
+
+
 def sort_score_grid(score_grid: List[dict]) -> List[dict]:
     """
     Sort the score matrix by the score

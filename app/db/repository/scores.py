@@ -2,8 +2,16 @@
 Scores Repository to interact with the Database
 """
 from app.schemas.grid import GridDB
-from app.schemas.scores import Scores, ScoresSave
-from app.utils.scoring import transform_values_into_grid, generate_score_all_grid
+from app.schemas.scores import ScoresSave
+from app.utils.scoring import transform_values_into_grid, generate_score_all_grid, sort_by_n_top_scores
+
+
+async def get_scores_by_id(id: str, top: int = None):
+    scores = await ScoresSave.find_one(ScoresSave.grid_id == id)
+    if not top:
+        return scores
+    else:
+        return sort_by_n_top_scores(scores, top)
 
 
 async def save_scores(grid: GridDB) -> ScoresSave:
