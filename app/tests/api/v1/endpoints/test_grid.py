@@ -51,3 +51,12 @@ async def test_delete_grid(client_test: AsyncClient) -> None:
     grid_id = grid.json()["id"]
     response = await delete_grid(client_test, grid_id)
     assert response.status_code == 200
+
+
+async def test_get_grid_by_id(client_test: AsyncClient) -> None:
+    """Test user endpoint returns authorized user"""
+    response_grid = await create_grid(client_test)
+    grid_id = response_grid.json()["id"]
+    response_get_grid = await client_test.get(f"/grid?id={grid_id}")
+    assert response_get_grid.status_code == 200
+    await delete_grid(client_test, grid_id)
