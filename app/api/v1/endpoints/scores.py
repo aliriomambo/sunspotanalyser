@@ -2,8 +2,8 @@
 Router file for the Scores Endpoint
 """
 from fastapi import APIRouter, HTTPException
-from app.schemas.scores import Scores
-from app.db.repository.scores import get_scores_by_id
+from app.schemas.scores import Scores, Score
+from app.db.repository.scores import get_scores_by_id, get_scores_by_location
 
 router = APIRouter()
 
@@ -19,3 +19,11 @@ async def get_scores(id: str, top: int = None):
             detail="Top value is Invalid"
         )
     return await get_scores_by_id(id, top)
+
+
+@router.get("/location/", response_model=Score)
+async def get_scores_by_loc(id: str, x: int, y: int):
+    """
+    Endpoint that gets the score by the location
+    """
+    return await get_scores_by_location(id, x, y)

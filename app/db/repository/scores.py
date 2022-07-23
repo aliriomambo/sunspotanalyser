@@ -2,8 +2,9 @@
 Scores Repository to interact with the Database
 """
 from app.schemas.grid import GridDB
-from app.schemas.scores import ScoresSave
+from app.schemas.scores import ScoresSave, Score, Scores
 from app.utils.scoring import transform_values_into_grid, generate_score_all_grid, sort_by_n_top_scores
+from fastapi import HTTPException
 
 
 async def get_scores_by_id(id: str, top: int = None):
@@ -12,6 +13,19 @@ async def get_scores_by_id(id: str, top: int = None):
         return scores
     else:
         return sort_by_n_top_scores(scores, top)
+
+
+async def get_scores_by_location(id: str, x: int, y: int):
+    scores = await ScoresSave.find_one(ScoresSave.grid_id == id)
+    scores = Scores(scores=scores.scores).dict()
+    for score in scores['scores']:
+        if score['x'] == x and score['y'] == y:
+            return Score(x=x, y=y, score=score['score'])
+
+    raise HTTPException(
+        status_code=404,
+        detail="Location Not Found"
+    )
 
 
 async def save_scores(grid: GridDB) -> ScoresSave:

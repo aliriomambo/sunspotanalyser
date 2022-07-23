@@ -50,3 +50,14 @@ async def test_get_top_scores(client_test: AsyncClient) -> None:
     response_scores = await client_test.get(f"/scores?id={grid_id}&top={top}")
     assert response_scores.status_code == 200
     await delete_grid(client_test, grid_id)
+
+
+async def test_get_score_by_location(client_test: AsyncClient) -> None:
+    """Test user endpoint returns authorized user"""
+    response_grid = await create_grid(client_test)
+    grid_id = response_grid.json()["id"]
+    x = 0
+    y = 0
+    response_scores = await client_test.get(f"/scores/location/?id={grid_id}&x={x}&y={y}")
+    assert response_scores.status_code == 200
+    await delete_grid(client_test, grid_id)
