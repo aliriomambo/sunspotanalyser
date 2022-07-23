@@ -1,3 +1,6 @@
+"""
+Router file for the Scores Endpoint
+"""
 from fastapi import APIRouter
 from app.schemas.scores import ScoresSave, Scores
 

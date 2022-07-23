@@ -1,3 +1,6 @@
+"""
+Main File for the API Service Configurations
+"""
 from pydantic import BaseSettings
 import os
 from dotenv import load_dotenv
@@ -6,6 +9,9 @@ load_dotenv(".env")
 
 
 class Settings(BaseSettings):
+    """
+    Core Settings configuration for the API Service
+    """
     API_V1_STR: str = "/api/v1"
     PROJECT_NAME: str = 'Sun Spot Analyser Service'
     MAX_CONNECTIONS_COUNT = int(os.getenv("MAX_CONNECTIONS_COUNT", 10))

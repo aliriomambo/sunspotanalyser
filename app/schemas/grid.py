@@ -1,9 +1,15 @@
+"""
+Grid Schema file where all the Schemas related to Grid are centralized
+"""
 from pydantic import BaseModel, root_validator
 from uuid import uuid4
 from beanie import Document
 
 
 class Grid(BaseModel):
+    """
+    Schema related to Grid which is used on the endpoint
+    """
     size: int
     values: str
 
@@ -24,7 +30,10 @@ class Grid(BaseModel):
             raise ValueError('Mismatch between size and values count')
         return grid
 
-    class Config:
+    class Config(object):
+        """
+            Sample Schema template for the OpenApi specification
+        """
         schema_extra = {
             "example": {
                 "size": "2",
@@ -34,13 +43,20 @@ class Grid(BaseModel):
 
 
 class GridDB(Document):
+    """
+    Schema related to Grid which is used to save the grid on the database
+    """
     id: str = str(uuid4())
     size: int
     values: str
 
-    class Settings:
+    class Settings(object):
+        "Collection Name for the database"
         name = "grid_collection"
 
 
 class GridCreateResponse(BaseModel):
+    """
+    Schema used as the Response Model for the post endpoint
+    """
     id: str

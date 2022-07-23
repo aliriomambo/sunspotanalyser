@@ -1,3 +1,6 @@
+"""
+Router file for the Grid Endpoint
+"""
 from fastapi import APIRouter, HTTPException
 from app.schemas.grid import GridCreateResponse, Grid, GridDB
 from app.db.repository.grid import save_grid
@@ -15,6 +18,11 @@ async def create_grid(grid: Grid):
 
 @router.delete("/")
 async def delete_grid(id: str):
+    """
+    Endpoint that deletes a Grid by the Grid ID
+    :param id: ID
+    :return: Status Message
+    """
     record = await GridDB.get(id)
 
     if not record:

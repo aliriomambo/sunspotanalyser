@@ -1,7 +1,13 @@
+"""
+Test Suite for the Score Schema
+"""
 from app.schemas.scores import Score, Scores
 
 
 def test_score():
+    """
+    Test normal score creation
+    """
     score = Score(x=0, y=1, score=20)
     assert score.x == 0
     assert score.y == 1
@@ -9,6 +15,9 @@ def test_score():
 
 
 def test_scores():
+    """
+    Test normal Scores creation
+    """
     score_one = Score(x=0, y=0, score=10)
     score_two = Score(x=0, y=1, score=20)
     score_three = Score(x=0, y=3, score=15)
