@@ -27,7 +27,7 @@ def generate_score_all_grid(grid) -> Scores:
             current_score = generate_score(grid, x, y)
             score = Score(x=x, y=y, score=current_score)
             score_list.append(score)
-    scores = Scores(__root__=score_list)
+    scores = Scores(scores=score_list)
     return scores
 
 
