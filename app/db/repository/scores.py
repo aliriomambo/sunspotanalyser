@@ -50,3 +50,9 @@ async def save_scores(grid: GridDB) -> ScoresSave:
     scores = generate_score_all_grid(matrix)
     scores_save = ScoresSave(scores=scores.scores, grid_id=grid.id)
     return await scores_save.create()
+
+
+async def delete_scores(grid_id: str):
+    scores = await ScoresSave.find_one(ScoresSave.grid_id == grid_id)
+    if scores:
+        await scores.delete()
