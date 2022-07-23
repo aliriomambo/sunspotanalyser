@@ -22,5 +22,8 @@ class Settings(BaseSettings):
     MONGO_PASS = os.getenv("MONGO_PASSWORD", "admin")
     MONGO_DB = os.getenv("MONGO_DB", "sun_spot_analyser")
 
+    GRID_ROUTER_PREFIX = '/grid'
+    SCORES_ROUTER_PREFIX = '/scores'
+
 
 settings = Settings()

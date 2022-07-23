@@ -4,6 +4,7 @@ Grid Schema file where all the Schemas related to Grid are centralized
 from pydantic import BaseModel, root_validator
 from uuid import uuid4
 from beanie import Document
+from app.strings.errors import NON_INTEGER_VALUE, VALUE_OUT_OF_RANGE, MISMATCH_SIZE_VALUES
 
 
 class Grid(BaseModel):
@@ -19,15 +20,15 @@ class Grid(BaseModel):
         all_values_digits = [v for v in values if v.isdigit()]
 
         if not all_values_digits:
-            raise ValueError('There is a non numeric value in the string')
+            raise ValueError(NON_INTEGER_VALUE)
 
         sorted_values = [int(number) for number in values]
         sorted_values.sort()
         if sorted_values[0] < 0 or sorted_values[-1] > 5:
-            raise ValueError('Values should be between 0 and 5')
+            raise ValueError(VALUE_OUT_OF_RANGE)
 
         if int(grid['size'] ** 2) != len(sorted_values):
-            raise ValueError('Mismatch between size and values count')
+            raise ValueError(MISMATCH_SIZE_VALUES)
         return grid
 
     class Config(object):

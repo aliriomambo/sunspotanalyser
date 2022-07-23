@@ -4,6 +4,7 @@ Router file for the Grid Endpoint
 from fastapi import APIRouter, HTTPException
 from app.schemas.grid import GridCreateResponse, Grid, GridDB
 from app.db.repository.grid import save_grid
+from app.strings.errors import GRID_RECORD_NOT_FOUND, GRID_DELETED_SUCCESS
 
 router = APIRouter()
 
@@ -28,10 +29,10 @@ async def delete_grid(id: str):
     if not record:
         raise HTTPException(
             status_code=404,
-            detail="Review record not found!"
+            detail=GRID_RECORD_NOT_FOUND
         )
 
     await record.delete()
     return {
-        "message": "Record deleted successfully"
+        "message": GRID_DELETED_SUCCESS
     }

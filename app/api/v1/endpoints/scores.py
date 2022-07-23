@@ -4,6 +4,7 @@ Router file for the Scores Endpoint
 from fastapi import APIRouter, HTTPException
 from app.schemas.scores import Scores, Score
 from app.db.repository.scores import get_scores_by_id, get_scores_by_location
+from app.strings.errors import TOP_VALUE_INVALID
 
 router = APIRouter()
 
@@ -16,7 +17,7 @@ async def get_scores(id: str, top: int = None):
     if top and top <= 0:
         raise HTTPException(
             status_code=400,
-            detail="Top value is Invalid"
+            detail=TOP_VALUE_INVALID
         )
     return await get_scores_by_id(id, top)
 
