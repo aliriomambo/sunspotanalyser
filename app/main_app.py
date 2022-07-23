@@ -16,8 +16,9 @@ app = FastAPI()
 @app.on_event("startup")
 async def app_init():
     """Initialize application services"""
-    client = AsyncIOMotorClient(
-        f"mongodb://{settings.MONGO_USER}:{settings.MONGO_PASS}@{settings.MONGO_HOST}:{settings.MONGO_PORT}"
-    )
+    uri = "mongodb://{}:{}@{}:{}/{}?authSource=admin".format(settings.MONGO_USER, settings.MONGO_PASS,
+                                                             settings.MONGO_HOST, settings.MONGO_PORT,
+                                                             settings.MONGO_DB)
+    client = AsyncIOMotorClient(uri)
 
     await init_beanie(client.db, document_models=[GridDB, ScoresSave])
