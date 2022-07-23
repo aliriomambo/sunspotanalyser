@@ -8,6 +8,12 @@ from fastapi import HTTPException
 
 
 async def get_scores_by_id(id: str, top: int = None):
+    """
+    Function that returns the scores and with the option of top n scores
+    :param id: Grid ID
+    :param top: Top N scores
+    :return: Scores
+    """
     scores = await ScoresSave.find_one(ScoresSave.grid_id == id)
     if not top:
         return scores
@@ -15,7 +21,14 @@ async def get_scores_by_id(id: str, top: int = None):
         return sort_by_n_top_scores(scores, top)
 
 
-async def get_scores_by_location(id: str, x: int, y: int):
+async def get_scores_by_location(id: str, x: int, y: int) -> Score:
+    """
+    Function that returns the score by the specific grid location
+    :param id: Grid ID
+    :param x: Row Location
+    :param y: Column Location
+    :return: Score
+    """
     scores = await ScoresSave.find_one(ScoresSave.grid_id == id)
     scores = Scores(scores=scores.scores).dict()
     for score in scores['scores']:

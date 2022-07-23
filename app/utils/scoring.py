@@ -25,6 +25,12 @@ def transform_values_into_grid(size: int, values: str) -> List:
 
 
 def sort_by_n_top_scores(scores, top) -> Scores:
+    """
+    Function that sorts the scores descendingly and retrieves the top n scores
+    :param scores: List of Scores
+    :param top: Number of top scores to retrieve
+    :return: Scores
+    """
     scores = Scores(scores=scores.scores).dict()
     scores_values_list = sort_score_grid(scores['scores'])
     scores_values_list = scores_values_list[:top]
