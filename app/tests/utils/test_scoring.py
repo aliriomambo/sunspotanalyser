@@ -2,6 +2,7 @@
 Test Suite for the Scoring Algorithm
 """
 from app.utils.scoring import generate_score, generate_score_all_grid
+from app.schemas.scores import Scores
 
 
 def test_generate_score():
@@ -18,10 +19,11 @@ def test_generate_score_all_grid():
     Test the generation of scores for the complete grid
     """
     grid = [[5, 3, 1, 2, 0], [4, 1, 1, 3, 2], [2, 3, 2, 4, 3], [0, 2, 3, 3, 2], [1, 0, 2, 4, 3]]
-    score_list = generate_score_all_grid(grid)
-    for score in score_list:
-        score = score.dict()
-    assert len(score_list) == len(grid) * len(grid[0])
+    scores: Scores = generate_score_all_grid(grid)
+    scores_length = 0
+    for _ in scores.scores:
+        scores_length = scores_length + 1
+    assert scores_length == len(grid) * len(grid[0])
 
 
 def test_generate_score_edge():
