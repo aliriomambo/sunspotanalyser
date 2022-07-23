@@ -68,6 +68,11 @@ async def save_scores(grid: GridDB) -> ScoresSave:
 
 
 async def delete_scores(grid_id: str):
+    """
+    Function to delete scores when the grid is deleted
+    :param grid_id: Grid ID
+    :return: None
+    """
     scores = await ScoresSave.find_one(ScoresSave.grid_id == grid_id)
     if scores:
         await scores.delete()

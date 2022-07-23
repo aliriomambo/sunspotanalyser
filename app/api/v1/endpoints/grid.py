@@ -3,8 +3,9 @@ Router file for the Grid Endpoint
 """
 from fastapi import APIRouter, HTTPException
 from app.schemas.grid import GridCreateResponse, Grid, GridDB
-from app.db.repository.grid import save_grid
+from app.db.repository.grid import save_grid, get_grid
 from app.strings.errors import GRID_RECORD_NOT_FOUND, GRID_DELETED_SUCCESS
+from app.schemas.grid import GridDB
 
 router = APIRouter()
 
@@ -15,6 +16,14 @@ async def create_grid(grid: Grid):
     Endpoint that creates a Grid as requested by the caller
     """
     return await save_grid(grid)
+
+
+@router.get("/", response_model=GridDB)
+async def get_grid_by_id(id: str):
+    """
+    Endpoint that gets the Grid by the ID as requested by the caller
+    """
+    return await get_grid(grid_id=id)
 
 
 @router.delete("/")

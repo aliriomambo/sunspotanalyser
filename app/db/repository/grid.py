@@ -19,6 +19,11 @@ async def save_grid(grid: Grid) -> dict:
 
 
 async def get_grid(grid_id: str) -> GridDB:
+    """
+    Function which retrieves the Grid from the Database using the ID
+    :param grid_id: Grid ID
+    :return: Grid database Record
+    """
     grid = await GridDB.get(grid_id)
 
     if not grid:
