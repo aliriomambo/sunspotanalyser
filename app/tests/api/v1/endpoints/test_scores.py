@@ -8,6 +8,11 @@ pytestmark = pytest.mark.asyncio
 
 
 async def create_grid(client_test: AsyncClient):
+    """
+    Helper Function to create Grid for the unit tests
+    :param client_test: AsyncClient created by the fixture
+    :return: Response
+    """
     response = await client_test.post(
         "/grid/",
         json={
@@ -18,6 +23,11 @@ async def create_grid(client_test: AsyncClient):
 
 
 async def delete_grid(client_test: AsyncClient, grid_id: str):
+    """
+    :param client_test: AsyncClient created by the fixture
+    :param grid_id: Grid_ID which has to be deleted
+    :return: Response for the deleted grid
+    """
     response = await client_test.delete(
         f"grid?id={grid_id}")
     return response
