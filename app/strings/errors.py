@@ -4,6 +4,7 @@ GRID_DELETED_SUCCESS = "Grid Record Deleted Successfully"
 
 "Scores Endpoint"
 TOP_VALUE_INVALID = "Top value is Invalid"
+SCORES_GRID_DOESNT_EXIST = "GRID DOESN'T EXIST"
 
 "Grid Schemas"
 NON_INTEGER_VALUE = "There is a non numeric value in the string"

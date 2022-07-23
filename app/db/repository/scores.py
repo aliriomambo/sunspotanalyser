@@ -5,6 +5,8 @@ from app.schemas.grid import GridDB
 from app.schemas.scores import ScoresSave, Score, Scores
 from app.utils.scoring import transform_values_into_grid, generate_score_all_grid, sort_by_n_top_scores
 from fastapi import HTTPException
+from app.strings.errors import SCORES_GRID_DOESNT_EXIST
+from app.db.repository.grid import get_grid
 
 
 async def get_scores_by_id(id: str, top: int = None):
@@ -14,7 +16,15 @@ async def get_scores_by_id(id: str, top: int = None):
     :param top: Top N scores
     :return: Scores
     """
+    grid = get_grid(grid_id=id)
     scores = await ScoresSave.find_one(ScoresSave.grid_id == id)
+
+    if not scores:
+        raise HTTPException(
+            status_code=404,
+            detail=SCORES_GRID_DOESNT_EXIST
+        )
+
     if not top:
         return scores
     else:

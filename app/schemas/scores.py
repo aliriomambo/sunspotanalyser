@@ -28,3 +28,7 @@ class ScoresSave(Document):
     """
     grid_id: str
     scores: List[Score]
+
+    class Settings(object):
+        "Collection Name for the database"
+        name = "scores_collection"

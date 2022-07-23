@@ -18,19 +18,24 @@ async def save_grid(grid: Grid) -> dict:
     return created_grid.dict()
 
 
+async def get_grid(grid_id: str) -> GridDB:
+    grid = await GridDB.get(grid_id)
+
+    if not grid:
+        raise HTTPException(
+            status_code=404,
+            detail=GRID_RECORD_NOT_FOUND
+        )
+    return grid
+
+
 async def delete_grid(grid_id: str) -> dict:
     """
      Endpoint that deletes a Grid by the Grid ID
      :param id: Grid ID
      :return: Status Message
     """
-    record = await GridDB.get(grid_id)
-
-    if not record:
-        raise HTTPException(
-            status_code=404,
-            detail=GRID_RECORD_NOT_FOUND
-        )
+    record = await get_grid(grid_id=grid_id)
 
     await record.delete()
     await delete_scores(grid_id)
