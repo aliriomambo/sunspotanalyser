@@ -5,12 +5,14 @@ Server app config
 from fastapi import FastAPI
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
-
+from logging.config import dictConfig
 from app.schemas.scores import ScoresSave
 from app.schemas.grid import GridDB
-from app.core.config import settings
+from app.core.config import settings, LogConfig
 
-app = FastAPI()
+dictConfig(LogConfig().dict())
+
+app = FastAPI(debug=True)
 
 
 @app.on_event("startup")

@@ -1,10 +1,10 @@
 """
 Conftest Module to configure the Injected AsyncClient
 """
+import pytest_asyncio
 from asgi_lifespan import LifespanManager
 from httpx import AsyncClient
 from app.main import app
-import pytest_asyncio
 
 
 @pytest_asyncio.fixture

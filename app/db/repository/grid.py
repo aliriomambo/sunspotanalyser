@@ -8,7 +8,7 @@ from app.strings.errors import GRID_DELETED_SUCCESS, GRID_RECORD_NOT_FOUND
 import uuid
 
 
-async def save_grid(grid: Grid) -> dict:
+async def save_grid(grid: Grid) -> GridDB:
     """
     :param grid: Instance of grid which will be saved into the DB
     :return: created grid dictionary
@@ -18,7 +18,8 @@ async def save_grid(grid: Grid) -> dict:
     grid_db = GridDB(id=id, size=grid.size, values=grid.values)
     created_grid = await grid_db.create()
     await save_scores(created_grid)
-    return created_grid.dict()
+
+    return created_grid
 
 
 async def get_grid(grid_id: str) -> GridDB:
@@ -44,6 +45,11 @@ async def delete_grid(grid_id: str) -> dict:
      :return: Status Message
     """
     record = await get_grid(grid_id=grid_id)
+    if not record:
+        raise HTTPException(
+            status_code=404,
+            detail=GRID_RECORD_NOT_FOUND
+        )
 
     await record.delete()
     await delete_scores(grid_id)
