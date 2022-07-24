@@ -34,7 +34,7 @@ async def delete_grid(client_test: AsyncClient, grid_id: str):
 
 
 async def test_get_scores(client_test: AsyncClient) -> None:
-    """Test user endpoint returns authorized user"""
+    """Test get scores endpoint returns scores of a specific grid"""
     response_grid = await create_grid(client_test)
     grid_id = response_grid.json()["id"]
     response_scores = await client_test.get(f"/scores?id={grid_id}")
@@ -42,8 +42,15 @@ async def test_get_scores(client_test: AsyncClient) -> None:
     await delete_grid(client_test, grid_id)
 
 
+async def test_get_scores_not_found(client_test: AsyncClient) -> None:
+    """Test get non-existant scores returns NOT_FOUND status code"""
+    grid_id = "random"
+    response_scores = await client_test.get(f"/scores?id={grid_id}")
+    assert response_scores.status_code == 404
+
+
 async def test_get_top_scores(client_test: AsyncClient) -> None:
-    """Test user endpoint returns authorized user"""
+    """Test get scores with top query parameter returns the top n scores"""
     response_grid = await create_grid(client_test)
     grid_id = response_grid.json()["id"]
     top = 2
@@ -52,12 +59,33 @@ async def test_get_top_scores(client_test: AsyncClient) -> None:
     await delete_grid(client_test, grid_id)
 
 
+async def test_get_top_scores_invalid_top(client_test: AsyncClient) -> None:
+    """Test get top scores with invalid top which returns Bad Request"""
+    response_grid = await create_grid(client_test)
+    grid_id = response_grid.json()["id"]
+    top = -1
+    response_scores = await client_test.get(f"/scores?id={grid_id}&top={top}")
+    assert response_scores.status_code == 400
+    await delete_grid(client_test, grid_id)
+
+
 async def test_get_score_by_location(client_test: AsyncClient) -> None:
-    """Test user endpoint returns authorized user"""
+    """Test get score endpoint by location which returns a score of a specific location"""
     response_grid = await create_grid(client_test)
     grid_id = response_grid.json()["id"]
     x = 0
     y = 0
     response_scores = await client_test.get(f"/scores/location/?id={grid_id}&x={x}&y={y}")
     assert response_scores.status_code == 200
+    await delete_grid(client_test, grid_id)
+
+
+async def test_get_score_by_location_invalid(client_test: AsyncClient) -> None:
+    """Test get score by an unexistant location"""
+    response_grid = await create_grid(client_test)
+    grid_id = response_grid.json()["id"]
+    x = -1
+    y = 0
+    response_scores = await client_test.get(f"/scores/location/?id={grid_id}&x={x}&y={y}")
+    assert response_scores.status_code == 404
     await delete_grid(client_test, grid_id)

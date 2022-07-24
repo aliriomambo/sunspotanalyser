@@ -12,7 +12,9 @@ A simple API service which can be used to  analyse areas of the Sun for thermal 
 
 To use the application, follow the outlined steps:
 
-1. Clone this repository and run the following command on the root:
+1. Clone this repository 
+2. Create a .env file based on the .env.sample. Please note that an exact copy should work.
+3. Run the docker compose command on the root:
 
 ```console
 $ docker-compose up -d --build
