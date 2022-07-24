@@ -6,6 +6,7 @@ from app.schemas.scores import ScoresSave, Score, Scores
 from app.utils.scoring import transform_values_into_grid, generate_score_all_grid, sort_by_n_top_scores
 from fastapi import HTTPException
 from app.strings.errors import SCORES_GRID_DOESNT_EXIST, GRID_RECORD_NOT_FOUND
+from app.strings.errors import SCORES_GRID_DOESNT_EXIST
 
 
 async def get_scores_by_id(id: str, top: int = None):
@@ -24,12 +25,6 @@ async def get_scores_by_id(id: str, top: int = None):
         )
     scores = await ScoresSave.find_one(ScoresSave.grid_id == id)
 
-    if not scores:
-        raise HTTPException(
-            status_code=404,
-            detail=SCORES_GRID_DOESNT_EXIST
-        )
-
     if not top:
         return scores
     else:
@@ -45,6 +40,11 @@ async def get_scores_by_location(id: str, x: int, y: int) -> Score:
     :return: Score
     """
     scores = await ScoresSave.find_one(ScoresSave.grid_id == id)
+    if not scores:
+        raise HTTPException(
+            status_code=404,
+            detail=GRID_RECORD_NOT_FOUND)
+
     scores = Scores(scores=scores.scores).dict()
     for score in scores['scores']:
         if score['x'] == x and score['y'] == y:

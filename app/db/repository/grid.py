@@ -5,6 +5,7 @@ from app.schemas.grid import GridDB, Grid
 from fastapi import HTTPException
 from app.db.repository.scores import save_scores, delete_scores
 from app.strings.errors import GRID_DELETED_SUCCESS, GRID_RECORD_NOT_FOUND
+import uuid
 
 
 async def save_grid(grid: Grid) -> dict:
@@ -12,7 +13,9 @@ async def save_grid(grid: Grid) -> dict:
     :param grid: Instance of grid which will be saved into the DB
     :return: created grid dictionary
     """
-    grid_db = GridDB(size=grid.size, values=grid.values)
+    id = uuid.uuid4()
+    id = str(id)
+    grid_db = GridDB(id=id, size=grid.size, values=grid.values)
     created_grid = await grid_db.create()
     await save_scores(created_grid)
     return created_grid.dict()
