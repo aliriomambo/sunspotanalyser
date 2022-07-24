@@ -85,6 +85,6 @@ def __get_grid_heat_values(grid, x, y) -> List:
     :param y: column position of matrix
     :return: List of surrounding heat values including the actual position
     """
-    heat_value_list = sum((row[y - (y > 0): y + 2]
-                           for row in grid[x - (x > 0):x + 2]), [])
+    heat_value_list = sum((row[x - (x > 0): x + 2]
+                           for row in grid[y - (y > 0):y + 2]), [])
     return heat_value_list
