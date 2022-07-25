@@ -14,7 +14,7 @@ async def save_grid(grid: Grid) -> GridDB:
     :return: created grid dictionary
     """
     _id = uuid.uuid4()
-    _id = str(id)
+    _id = str(_id)
     grid_db = GridDB(id=_id, size=grid.size, values=grid.values)
     created_grid = await grid_db.create()
     await save_scores(created_grid)
